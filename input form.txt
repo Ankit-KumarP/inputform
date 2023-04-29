@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        background-color: black;
+    }
+
+    .form {
+        margin: 2rem 0px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .form form {
+        display: flex;
+        flex-direction: column;
+        padding: 4rem 1rem;
+        width: 60%;
+        margin: auto;
+    }
+
+    .form form label {
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+
+    .form form input {
+        color: white;
+        margin-bottom: 1rem;
+        padding: 10px 10px;
+        font-size: 12px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .form form textarea {
+        color: #fff;
+        margin-bottom: 1rem;
+        padding: 10px 10px;
+        font-size: 1rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+        padding: 12px 32px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        background-color: rgb(248, 217, 15);
+        color: #222;
+        border: 1px solid #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        transition: all 0.3s;
+         background-color: rgba(40, 38, 38, 0.542);
+         color: white;
+    }
+
+    
+
+    #msg {
+        color: #61b725;
+        margin-top: -40px;
+        display: block;
+        font-size: 1.2rem;
+        font-style: italic;
+    }
+
+    /* Responsiveness */
+    @media screen and (max-width: 750px) {
+        .form form {
+            width: 90%;
+        }
+    }
+</style>
+
+<body>
+    <div class="form">
+        <form name='submit-to-google-sheet' id='fff'>
+            <input type='text' id='name' name='Name' required placeholder="Your Name"></input>
+            <input type='email' id='email' name='Email' required placeholder="Email"></input>
+            <label htmlFor='subject'></label>
+            <input type='text' id='subject' name='Subject' required placeholder="Subject"> </input>
+            <label htmlFor='message'></label>
+            <textarea name="Message" id="message" cols="6" rows="5" placeholder='Type your message here'></textarea>
+            <button type='submit' class='btn'>Submit</button>
+        </form>
+        <span id="msg"></span>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz6nzAQQD0UPyB_2m92eyTfpMBrfrXrxS-FAOw8t_k9EIUFRAa0ttU-mJSk3WLD7Uck1g/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const msg = document.getElementById("msg")
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    msg.innerHTML = "Message sent successfully"
+                    setTimeout(function () {
+                        msg.innerHTML = ""
+                    }, 1000)
+                    form.reset()
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+
+
+</body>
+
+</html>
